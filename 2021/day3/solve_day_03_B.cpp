@@ -38,23 +38,127 @@ int main() {
     int numberOfOnes = 0;
 
     std::vector<std::string> input_data = get_input();
+    std::vector<std::string> storage_vector;
+    copy(input_data.begin(), input_data.end(), back_inserter(storage_vector));
     std::vector<int> indexWith1;
     std::vector<int> indexWith0;
 
-    for (int i = 0; i < input_data.size(); i++) {
-        int temp = 0;
-        switch (temp) {
-            case 1:
-                break;
-            case 2:
-                break;
+    int stringIndex = 0;
+    bool loopControl = true;
+
+    int retVal1;
+    int retVal2;
+
+    while(loopControl){
+        numberOfZero = 0;
+        numberOfOnes = 0;
+        indexWith1.clear();
+        indexWith0.clear();
+        for (int i = 0; i < input_data.size(); i++) {
+            if (input_data[i][stringIndex] == '1'){
+                numberOfOnes++;
+                indexWith1.push_back(i);
+            } else {
+                numberOfZero++;
+                indexWith0.push_back(i);
+            }
+        }
+        std::cout << "Size: " << input_data.size() << std::endl;
+
+        if (numberOfOnes >= numberOfZero){
+            while (indexWith0.size() >= 1) {
+                input_data.erase(input_data.begin() + indexWith0.back());
+                indexWith0.pop_back();
+            }
+        } else {
+            while (indexWith1.size() >= 1) {
+                input_data.erase(input_data.begin() + indexWith1.back());
+                indexWith1.pop_back();
+            }
+        }
+        if (input_data.size() == 1){
+            loopControl = false;
+        } else {
+            stringIndex++;
+        }
+    }
+
+    std::cout << "Number: " << input_data[0] << std::endl;
+
+    std::vector<int> temp_Vector;
+    for (int i = 0; i < input_data[0].size(); i++) {
+        if (input_data[0][i] == '0'){
+            temp_Vector.push_back(0);
+        } else {
+            temp_Vector.push_back(1);
+        }
+    }
+
+    retVal1 = binaryVectorToInt(temp_Vector);
+
+    std::cout << "Number: " << retVal1 << std::endl;
+
+    // Next number
+
+    input_data.clear();
+    copy(storage_vector.begin(), storage_vector.end(), back_inserter(input_data));
+    stringIndex = 0;
+    loopControl = true;
+
+    while(loopControl){
+        numberOfZero = 0;
+        numberOfOnes = 0;
+        indexWith1.clear();
+        indexWith0.clear();
+        for (int i = 0; i < input_data.size(); i++) {
+            if (input_data[i][stringIndex] == '1'){
+                numberOfOnes++;
+                indexWith1.push_back(i);
+            } else {
+                numberOfZero++;
+                indexWith0.push_back(i);
+            }
         }
 
+        std::cout << "Size: " << input_data.size() << std::endl;
+
+        if (numberOfOnes >= numberOfZero){
+            while (indexWith1.size() >= 1) {
+                input_data.erase(input_data.begin() + indexWith1.back());
+                indexWith1.pop_back();
+            }
+        } else {
+            while (indexWith0.size() >= 1) {
+                input_data.erase(input_data.begin() + indexWith0.back());
+                indexWith0.pop_back();
+            }
+        }
+        if (input_data.size() == 1){
+            loopControl = false;
+        } else {
+            stringIndex++;
+        }
     }
+
+    std::cout << "Number: " << input_data[0] << std::endl;
+
+    temp_Vector.clear();
+    for (int i = 0; i < input_data[0].size(); i++) {
+        if (input_data[0][i] == '0'){
+            temp_Vector.push_back(0);
+        } else {
+            temp_Vector.push_back(1);
+        }
+    }
+
+    retVal2 = binaryVectorToInt(temp_Vector);
+
+    std::cout << "Number: " << retVal2 << std::endl;
+
+    std::cout << "Solution: " << retVal1*retVal2 << std::endl;
 
     return 0;
 }
-
 
 int not_main() {
 
